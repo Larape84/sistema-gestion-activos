@@ -1,16 +1,16 @@
 <div class="w-full h-screen bg-red-400 flex flex-col items-center justify-center overflow-hidden">
 
-  <div class="w-100 h-100 bg-white rounded-md flex flex-col gap-2 p-2">
+  <form [formGroup]="formLogin" class="w-100 h-100 bg-white rounded-md flex flex-col gap-2 p-2">
 
 
     <mat-form-field class="w-full">
       <mat-label>Usuario</mat-label>
-      <input type="text" autocomplete="off" matInput>
+      <input formControlName="user" type="text" autocomplete="off" matInput>
     </mat-form-field>
 
      <mat-form-field class="w-full">
       <mat-label>Contraseña</mat-label>
-      <input type="text" autocomplete="off" matInput>
+      <input formControlName="password" type="text" autocomplete="off" matInput>
     </mat-form-field>
 
     <a
@@ -18,7 +18,7 @@
                             [routerLink]="['/login/create-user']">¿Desea crear su usuario?
                         </a>
 
-   <button mat-flat-button color="primary" >Iniciar sesión</button>
+   <button mat-flat-button color="primary" (click)="iniciarSesion()" >Iniciar sesión</button>
 
 
 
@@ -27,6 +27,6 @@
 
 
 
-  </div>
+  </form>
 
 </div>

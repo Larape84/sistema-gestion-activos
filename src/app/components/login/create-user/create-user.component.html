@@ -1,21 +1,21 @@
 <div class="w-full h-screen bg-red-400 flex flex-col items-center justify-center overflow-hidden">
 
-  <div class="w-100 h-100 bg-white rounded-md flex flex-col gap-2 p-2">
+  <form [formGroup]="formUser" class="w-100 h-100 bg-white rounded-md flex flex-col gap-2 p-2">
 
 
     <mat-form-field class="w-full">
-      <mat-label>Usuario</mat-label>
-      <input type="text" autocomplete="off" matInput>
+      <mat-label>Nombre de usuario</mat-label>
+      <input formControlName="user" type="text" autocomplete="off" matInput>
     </mat-form-field>
 
      <mat-form-field class="w-full">
       <mat-label>Contraseña</mat-label>
-      <input type="text" autocomplete="off" matInput>
+      <input formControlName="password" type="text" autocomplete="off" matInput>
     </mat-form-field>
 
      <mat-form-field class="w-full">
       <mat-label>Confirmar contraseña</mat-label>
-      <input type="text" autocomplete="off" matInput>
+      <input formControlName="repeatPass" type="text" autocomplete="off" matInput>
     </mat-form-field>
 
     <a
@@ -23,7 +23,7 @@
                             [routerLink]="['/login/auth']">¿Ya tiene usuario? inicie sesión
                         </a>
 
-   <button mat-flat-button color="primary" >Crear usuario</button>
+   <button (click)="crearUsuario()" mat-flat-button color="primary" >Crear usuario</button>
 
 
 
@@ -32,7 +32,7 @@
 
 
 
-  </div>
+  </form>
 
 </div>
 
