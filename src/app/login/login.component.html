@@ -1,0 +1,32 @@
+<div class="w-full h-screen bg-red-400 flex flex-col items-center justify-center overflow-hidden">
+
+  <div class="w-100 h-100 bg-white rounded-md flex flex-col gap-2 p-2">
+
+
+    <mat-form-field class="w-full">
+      <mat-label>Usuario</mat-label>
+      <input type="text" autocomplete="off" matInput>
+    </mat-form-field>
+
+     <mat-form-field class="w-full">
+      <mat-label>Contraseña</mat-label>
+      <input type="text" autocomplete="off" matInput>
+    </mat-form-field>
+
+    <a
+                            class="text-md font-medium text-primary-500 hover:underline"
+                            [routerLink]="['/login/create-user']">¿Desea crear su usuario?
+                        </a>
+
+   <button mat-flat-button color="primary" >Iniciar sesión</button>
+
+
+
+
+
+
+
+
+  </div>
+
+</div>

@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+/* Order */
+
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+* {
+    scrollbar-width: thin;
+    scrollbar-color: gray ;
+  }
+
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 20px;
+    border: 3px solid transparent;
+  }
