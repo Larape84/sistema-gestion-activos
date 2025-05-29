@@ -24,42 +24,71 @@
       <!-- Position Column -->
       <ng-container matColumnDef="Nombre">
         <th mat-header-cell *matHeaderCellDef class="font-bold text-gray-600 bg-gray-100" > Nombre </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="Categoria">
         <th mat-header-cell *matHeaderCellDef class="bg-gray-100 font-bold text-gray-600"> Categoria </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.Categoria.id}} </td>
       </ng-container>
 
       <!-- Weight Column -->
       <ng-container matColumnDef="Area">
         <th mat-header-cell *matHeaderCellDef class="bg-gray-100 font-bold text-gray-600"> Area </th>
-        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.Area.id}} </td>
       </ng-container>
 
       <!-- Symbol Column -->
       <ng-container matColumnDef="Custodio">
         <th mat-header-cell *matHeaderCellDef class="bg-gray-100 font-bold text-gray-600"> Custodio </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.Custodio}} </td>
       </ng-container>
 
 
        <ng-container matColumnDef="fecha">
         <th mat-header-cell *matHeaderCellDef class="bg-gray-100 font-bold text-gray-600"> Fecha adquisición </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.fecha }} </td>
       </ng-container>
 
        <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef class="bg-gray-100 font-bold text-gray-600"> Estado </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        <td mat-cell *matCellDef="let element">
+          <div class="w-full flex gap-2 items-center" >
+
+            <div [ngClass]="element.color" class="iconsize rounded-full">
+
+            </div>
+
+            <span>{{element.estado.id || '---' }}</span>
+
+          </div>
+
+        </td>
       </ng-container>
 
        <ng-container matColumnDef="Valor">
         <th mat-header-cell *matHeaderCellDef class="bg-gray-100 font-bold text-gray-600"> Valor </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.Valor}} </td>
       </ng-container>
+
+      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="21">
+                            <div class="w-full h-40 flex flex-col gap-4 items-center justify-center">
+
+                                <div class="flex items-center content-center justify-center mt-7 gap-3">
+                                    <p class="text-5xl font-semibold tracking-tight">
+                                        {{ "Aviso" }}
+                                    </p>
+                                </div>
+                                <p class="text-lg mb-8">
+                                    {{ "Lo sentimos, no se encontraron datos " }}
+                                </p>
+                            </div>
+
+                        </td>
+
+                    </tr>
 
       <tr class="font-semibold text-gray-600" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

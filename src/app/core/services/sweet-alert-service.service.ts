@@ -54,22 +54,25 @@ export class SweetAlertServiceService {
 
 
 
-  public alertSuccess(text?: string, accion?:any): void {
-    text = text || 'Solicitud realizada correctamente'
-    const alert = Swal.fire({
-      allowOutsideClick: true,
-      backdrop: true,
-      title: 'Correcto!',
-      html: text,
-      icon: 'success',
-      confirmButtonColor: '#3085d6',
-      customClass: {
-        confirmButton: 'rounded-full w-20 bg-blue-400 ring-0'
-      }
-    }).then(()=>{
-        if(!!accion){
-            accion();
+  public alertSuccess(text?: string, accion?:any): Promise<void> {
+
+    return new Promise ((resolve)=>{
+      text = text || 'Solicitud realizada correctamente'
+      const alert = Swal.fire({
+        allowOutsideClick: true,
+        backdrop: true,
+        title: 'Correcto!',
+        html: text,
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        customClass: {
+          confirmButton: 'rounded-full w-20 bg-blue-400 ring-0'
         }
+      }).then(()=>{
+
+          resolve()
+      })
+
     })
   }
 

@@ -66,5 +66,13 @@ export class FireStoreServiceService {
   }
 
 
+  updateDocument(collectionName: string, docId: string, data: any): Observable<void> {
+    const docRef = doc(this.firestore, `${collectionName}/${docId}`);
+    return from(updateDoc(docRef, {...data}));
+  }
+
+
+
+
 
 }

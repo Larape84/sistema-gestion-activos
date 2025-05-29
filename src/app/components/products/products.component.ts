@@ -4,6 +4,9 @@ import { AvatarModule } from 'primeng/avatar';
 import { SharedModuleModule } from '../../../shared/modules/shared-module.module';
 import { TableProductsComponent } from './table-products/table-products.component';
 import { ProductosServiceService } from '../../core/services/productos-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalNewProductComponent } from './modal-new-product/modal-new-product.component';
+import { SweetAlertServiceService } from '../../core/services/sweet-alert-service.service';
 
 @Component({
   selector: 'app-products',
@@ -16,8 +19,12 @@ import { ProductosServiceService } from '../../core/services/productos-service.s
 export class ProductsComponent implements OnInit, OnDestroy {
 
 
+  public cardActive = 0
+
   constructor(
-    private _productoService : ProductosServiceService
+    private _productoService : ProductosServiceService,
+    private _modalDial: MatDialog,
+    private _sweetAlerService : SweetAlertServiceService
 
   ){}
 
@@ -32,5 +39,38 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public actualizarRegistros(): void {
     this._productoService.actualizarTabla()
   }
+
+  public filtrarCard(index: number): void {
+    this.cardActive = index
+    this._productoService.actualizarFiltroCard(index)
+
+  }
+
+   public filtrarText(text: string): void {
+
+    this._productoService.actualizarFiltroText(text)
+
+  }
+
+
+
+
+  public crearproduct(): void {
+
+
+        this._modalDial.open(ModalNewProductComponent,{
+          data: null,
+          width:'500px',
+
+        }).afterClosed().subscribe((resp)=>{
+
+          if(!resp){
+            return
+          }
+
+          this.actualizarRegistros()
+
+        })
+     }
 
 }

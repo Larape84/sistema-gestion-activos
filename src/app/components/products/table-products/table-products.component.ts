@@ -11,7 +11,7 @@ import { SweetAlertServiceService } from '../../../core/services/sweet-alert-ser
 import { FireStoreServiceService } from '../../../core/services/fire-store-service.service';
 import { ProductosServiceService } from '../../../core/services/productos-service.service';
 import { Subject, Subscription, takeUntil } from 'rxjs';
-
+import {formatFirebaseTimestampToDDMMYYYY} from '../../../../shared/utils/luxon.dates'
 @Component({
   selector: 'app-table-products',
   standalone: true,
@@ -23,6 +23,8 @@ export class TableProductsComponent implements OnInit , OnDestroy {
   @ViewChild(MatPaginator) public paginator!: MatPaginator;
   public selectProducto = null
   private $suscription = new Subscription();
+  private $suscriptionCard = new Subscription();
+
   private $unsuscribe = new Subject<void>();
 
 
@@ -37,6 +39,7 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
 
    dataSource : any = new MatTableDataSource<any>([]);
+   dataSourceCopy : any = new MatTableDataSource<any>([]);
 
 
    constructor(
@@ -63,6 +66,69 @@ export class TableProductsComponent implements OnInit , OnDestroy {
       }
     })
 
+     this.$suscriptionCard = this._productoService.$actualizarCardTabla.pipe(takeUntil(this.$unsuscribe)).subscribe({
+      next:(resp)=>{
+
+        if(resp?.text){
+          this.dataSource.filter = resp.text;
+
+        }
+
+        if(resp?.card === 0 ){
+
+          this.obtenerProductos()
+
+        }
+
+
+         else if(resp?.card === 1 ){
+
+          this._sweetAlertService.startLoading({})
+
+
+          const filtro = this.dataSourceCopy.data.filter((item: any)=> item.estado.id === 'Activo')
+
+          setTimeout(() => {
+            this.dataSource = new MatTableDataSource(filtro)
+            this._sweetAlertService.stopLoading()
+          }, 300);
+
+
+         }
+
+         else if(resp?.card === 2 ){
+
+          this._sweetAlertService.startLoading({})
+
+          const filtro = this.dataSourceCopy.data.filter((item: any)=>item.estado.id === 'Inactivo')
+
+           setTimeout(() => {
+            this.dataSource = new MatTableDataSource(filtro)
+            this._sweetAlertService.stopLoading()
+          }, 300);
+
+
+         }
+
+          else if(resp?.card === 3 ){
+
+          this._sweetAlertService.startLoading({})
+
+          const filtro = this.dataSourceCopy.data.filter((item: any)=>item.estado.id === 'Traslado')
+
+           setTimeout(() => {
+            this.dataSource = new MatTableDataSource(filtro)
+            this._sweetAlertService.stopLoading()
+          }, 300);
+
+
+         }
+
+
+
+      }
+    })
+
 
 
   }
@@ -77,9 +143,35 @@ export class TableProductsComponent implements OnInit , OnDestroy {
         data: this.selectProducto,
         width:'500px',
 
-      })
+      }).afterClosed().subscribe((resp)=>{
+
+          if(!resp){
+            return
+          }
+
+          this.obtenerProductos()
+
+        })
    }
 
+   public obtenerColor(estado: string): string {
+
+    if(estado==='Activo'){
+      return 'bgActivo'
+    }
+
+    else if(estado==='Inactivo'){
+      return 'bginactivo'
+    }
+
+    else{
+      return 'bgTraslado'
+    }
+
+
+
+
+   }
 
    public obtenerProductos(): void {
 
@@ -87,9 +179,15 @@ export class TableProductsComponent implements OnInit , OnDestroy {
     this.dataSource = new MatTableDataSource([])
 
     this._fireService.getCollection('productos').subscribe({
-      next:(resp)=>{
-        console.log(resp)
-        this.dataSource = new MatTableDataSource(resp)
+      next:(productos)=>{
+        console.log(productos)
+        productos.forEach((item: any)=>{
+          item['color'] = this.obtenerColor(item.estado.id || '')
+          item['fecha'] = formatFirebaseTimestampToDDMMYYYY(item.fechaCreacion)
+        })
+
+        this.dataSource = new MatTableDataSource(productos)
+        this.dataSourceCopy = new MatTableDataSource(productos)
         this._sweetAlertService.stopLoading();
       },
       error:(e)=>{

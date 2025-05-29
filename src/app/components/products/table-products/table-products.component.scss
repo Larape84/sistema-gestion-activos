@@ -1,0 +1,23 @@
+.iconsize {
+  --tam : 20px;
+  width: var(--tam);
+  min-width: var(--tam);
+  max-width: var(--tam);
+  height: var(--tam);
+  min-height: var(--tam);
+  max-height: var(--tam);
+
+
+}
+
+.bgActivo {
+  background-color: green;
+}
+
+.bginactivo {
+  background-color: red;
+}
+
+.bgTraslado{
+  background-color: orange;
+}
