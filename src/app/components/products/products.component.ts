@@ -1,19 +1,25 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
+import { AvatarModule } from 'primeng/avatar';
+import { SharedModuleModule } from '../../../shared/modules/shared-module.module';
+import { TableProductsComponent } from './table-products/table-products.component';
+import { ProductosServiceService } from '../../core/services/productos-service.service';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [SidebarComponent, ButtonModule],
+  imports: [ButtonModule, AvatarModule, SharedModuleModule, TableProductsComponent],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.scss'
+  styleUrl: './products.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class ProductsComponent implements OnInit, OnDestroy {
 
-  public visible = false
 
-  constructor(){}
+  constructor(
+    private _productoService : ProductosServiceService
+
+  ){}
 
 
   ngOnDestroy(): void {
@@ -21,6 +27,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
 
+  }
+
+  public actualizarRegistros(): void {
+    this._productoService.actualizarTabla()
   }
 
 }

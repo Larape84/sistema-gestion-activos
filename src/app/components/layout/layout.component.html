@@ -1,0 +1,37 @@
+<div class="w-screen overflow-hidden h-screen bg-gray-100 flex flex-col">
+
+
+  <div class="w-full h-16 bg-[#241123] flex items-center justify-end l-4 shadow-8 pr-4"  >
+
+
+
+     <div class="flex flex-col " >
+                <a pRipple class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                  <span class="font-bold text-white">Usuario</span>
+                    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+                </a>
+            </div>
+
+  </div>
+
+
+  <div class="flex flex-row h-full">
+    <app-sidebar class="h-full" [visible]="visible" ></app-sidebar>
+
+
+    <div class="w-full h-full">
+
+      <router-outlet></router-outlet>
+
+  </div>
+
+    </div>
+
+
+
+
+
+
+
+
+</div>

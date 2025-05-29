@@ -82,7 +82,7 @@ export class SweetAlertServiceService {
       allowEscapeKey:false,
       backdrop: true,
       title: 'Error!',
-      text: param?.text || "Su solicitud no pudo ser procesada, por favor intente nuevamente",
+      text: param?.text  || param?.error?.message || param?.message || "Su solicitud no pudo ser procesada, por favor intente nuevamente",
       icon: 'error',
       customClass: {
         confirmButton: 'rounded-full w-20 bg-gray-400 ring-0'
