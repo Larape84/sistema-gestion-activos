@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { ViewChild } from '@angular/core';
 import { SharedModuleModule } from '../../../../shared/modules/shared-module.module';
@@ -12,6 +12,7 @@ import { FireStoreServiceService } from '../../../core/services/fire-store-servi
 import { ProductosServiceService } from '../../../core/services/productos-service.service';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import {formatFirebaseTimestampToDDMMYYYY} from '../../../../shared/utils/luxon.dates'
+import {MatSort, Sort,} from '@angular/material/sort';
 @Component({
   selector: 'app-table-products',
   standalone: true,
@@ -21,6 +22,8 @@ import {formatFirebaseTimestampToDDMMYYYY} from '../../../../shared/utils/luxon.
 })
 export class TableProductsComponent implements OnInit , OnDestroy {
   @ViewChild(MatPaginator) public paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   public selectProducto = null
   private $suscription = new Subscription();
   private $suscriptionCard = new Subscription();
@@ -29,7 +32,7 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
 
 
-  displayedColumns: string[] = ['editar', 'Nombre', 'Categoria', 'Area', 'Custodio', 'fecha', 'estado', 'Valor'  ];
+  displayedColumns: string[] = ['editar', 'Nombre', '_categoria', '_area', 'Custodio', 'fecha', '_estado', 'Valor'  ];
 
   public items = [
             { label: 'Editar', icon: 'pi pi-pencil',  command: (e:any) => {this.editproduct() } },
@@ -46,8 +49,11 @@ export class TableProductsComponent implements OnInit , OnDestroy {
     private _modalDial : MatDialog,
     private _sweetAlertService : SweetAlertServiceService,
     private _fireService : FireStoreServiceService,
-    private _productoService : ProductosServiceService
-   ){}
+    private _productoService : ProductosServiceService,
+    private paginatorIntl: MatPaginatorIntl,
+   ){
+    this.paginatorIntl.itemsPerPageLabel = 'Items por página : ';
+   }
 
 
   ngOnDestroy(): void {
@@ -56,6 +62,8 @@ export class TableProductsComponent implements OnInit , OnDestroy {
     this.$suscription.unsubscribe()
 
   }
+
+
 
   ngOnInit(): void {
     this.obtenerProductos()
@@ -90,6 +98,7 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
           setTimeout(() => {
             this.dataSource = new MatTableDataSource(filtro)
+            this.dataSource.paginator = this.paginator;
             this._sweetAlertService.stopLoading()
           }, 300);
 
@@ -104,6 +113,7 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
            setTimeout(() => {
             this.dataSource = new MatTableDataSource(filtro)
+            this.dataSource.paginator = this.paginator;
             this._sweetAlertService.stopLoading()
           }, 300);
 
@@ -118,6 +128,7 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
            setTimeout(() => {
             this.dataSource = new MatTableDataSource(filtro)
+            this.dataSource.paginator = this.paginator;
             this._sweetAlertService.stopLoading()
           }, 300);
 
@@ -182,12 +193,24 @@ export class TableProductsComponent implements OnInit , OnDestroy {
       next:(productos)=>{
         console.log(productos)
         productos.forEach((item: any)=>{
+
+          item['_estado'] = item.estado.id
+          item['_fecha'] =  ''
+          item['_area'] = item.Area.id
+          item['_categoria'] = item.Categoria.id
+          item['_fecha'] = item.Categoria.id
+
+
           item['color'] = this.obtenerColor(item.estado.id || '')
-          item['fecha'] = formatFirebaseTimestampToDDMMYYYY(item.fechaCreacion)
+          item['fecha'] = formatFirebaseTimestampToDDMMYYYY(item.Fecha)
         })
 
         this.dataSource = new MatTableDataSource(productos)
         this.dataSourceCopy = new MatTableDataSource(productos)
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+
         this._sweetAlertService.stopLoading();
       },
       error:(e)=>{

@@ -12,6 +12,7 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import {MatSortModule} from '@angular/material/sort';
 
 
 
@@ -31,7 +32,8 @@ import { FormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatTableModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatSortModule
 
   ],
   exports:[
@@ -48,7 +50,8 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     MatDialogModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    MatSortModule
   ]
 })
 export class SharedModuleModule { }
