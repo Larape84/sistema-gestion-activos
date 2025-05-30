@@ -8,7 +8,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ErrorServiceService } from '../../../core/services/error-service.service';
-import {exportToDatePicker} from '../../../../shared/utils/luxon.dates'
+import {exportToDatePicker, formatFirebaseTimestampToDDMMYYYY} from '../../../../shared/utils/luxon.dates'
+import { AuthServiceService } from '../../../core/services/auth-service.service';
 
 
 
@@ -56,6 +57,7 @@ public estados = [
     private _firebase : FireStoreServiceService,
     private _modalref : MatDialogRef<ModalNewProductComponent>,
     public errorService : ErrorServiceService,
+    private authService : AuthServiceService,
     @Inject(MAT_DIALOG_DATA) public data : any = null
   ){}
 
@@ -114,17 +116,25 @@ public estados = [
       const form = this.formProducto.getRawValue()
       this.Sweetalert2Service.startLoading({})
 
+      const user = this.authService.getUserActive()
 
     const payload = {
-      userModificacion : '',
+
+      userModificacion : user.id,
       fechaModificacion : new Date(),
-      ...form
+      ...form,
+      fecha : formatFirebaseTimestampToDDMMYYYY(form.Fecha),
+      _area : form.Area.id,
+      _categoria : form.Categoria.id,
+      _estado : form.estado.id,
     }
 
 
 
     this._firebase.updateDocument('productos', this.data.id, payload).subscribe({
       next:(resp)=>{
+
+        this._firebase.crearDocumentoAutoID$('historico', {...this.data, ...payload, product:this.data.id }).subscribe()
 
         this.Sweetalert2Service.alertSuccess().then(()=>{
           this._modalref.close(true)
@@ -167,10 +177,12 @@ public estados = [
 
         const form = this.formProducto.getRawValue()
 
+        const user = this.authService.getUserActive()
+
     const payload = {
-      userCreacion : '',
-      userModificacion : '',
-      fechaModificacion: '',
+      userCreacion : user.id,
+      userModificacion : user.id,
+      fechaModificacion: new Date(),
       fechaCreacion : new Date(),
       estado: { id: 'Activo' },
       filename: this.selectedFileInfo.name,
@@ -180,8 +192,21 @@ public estados = [
 
     this.Sweetalert2Service.startLoading({})
 
+
+
     this._firebase.createDocumentWithImage('productos', payload, this.file).subscribe({
       next:(resp)=>{
+
+        const product = {
+          ...payload, product:resp,
+          _area : form.Area.id,
+          _categoria : form.Categoria.id,
+          _estado : 'Activo',
+          fecha: formatFirebaseTimestampToDDMMYYYY(form.Fecha)
+
+        }
+
+        this._firebase.crearDocumentoAutoID$('historico', product).subscribe()
 
         this.Sweetalert2Service.alertSuccess().then(()=>{
           this._modalref.close(true)

@@ -16,6 +16,7 @@ import {MatSort} from '@angular/material/sort';
 import {exportAsExcelFile} from '../../../../shared/utils/excel.export'
 import { DataTablePipe } from "../../../../shared/pipes/data.table.pipe";
 import { ModalViewPictureProductComponent } from '../modal-view-picture-product/modal-view-picture-product.component';
+import { ModalHistoricProductComponent } from '../modal-historic-product/modal-historic-product.component';
 
 
 @Component({
@@ -45,7 +46,7 @@ export class TableProductsComponent implements OnInit , OnDestroy {
             { label: 'Dar de baja', icon: 'pi pi-trash', command: (e:any) => {this.udpateEstado('Inactivo') } },
             { label: 'Trasladar', icon: 'pi pi-truck', command: (e:any) => {this.udpateEstado('Traslado') }},
             { label: 'Visualizar producto', icon: 'pi pi-eye', command: (e:any) => { this.visualizarProucto()}},
-            { label: 'Ver historico', icon: 'pi pi-truck', command: (e:any) => {}}
+            { label: 'Ver historico', icon: 'pi pi-history', command: (e:any) => {this.visualizarHistorico()}}
 
             ,
         ];
@@ -177,6 +178,32 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
   }
 
+  public visualizarHistorico(): void {
+
+    this._sweetAlertService.startLoading({})
+
+    this._fireService.getDocumentsByKey('historico', 'product', this.selectProducto!['id']).subscribe({
+      next:(resp)=>{
+
+        this._sweetAlertService.stopLoading()
+
+        this._modalDial.open(ModalHistoricProductComponent, {
+          data:{producto: this.selectProducto, moimientos : resp},
+          width:'1200px',
+
+          maxWidth:'90vw',
+          maxHeight :'80vh'
+        })
+      },
+      error:(e)=>{
+        this._sweetAlertService.alertError(e)
+      }
+    })
+
+
+
+  }
+
 
   public udpateEstado(estado: string): void {
 
@@ -189,10 +216,22 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
       const id = this.selectProducto!['id']
 
-
+      const select : any = this.selectProducto
+      const historico = {
+        ...select,
+        ...payload,
+        _estado :  estado,
+        color : this.obtenerColor(estado),
+        product:this.selectProducto!['id']
+      }
+      console.log(historico)
 
       this._fireService.updateDocument('productos', id ,payload).subscribe({
         next:(resp)=>{
+
+          this._fireService.crearDocumentoAutoID$('historico', historico).subscribe((resp)=>{
+            console.log(resp, 'historico')
+          })
 
           this.obtenerProductos().then(()=>{
             this._sweetAlertService.alertSuccess()
@@ -276,10 +315,9 @@ export class TableProductsComponent implements OnInit , OnDestroy {
         productos.forEach((item: any)=>{
 
           item['_estado'] = item.estado.id
-          item['_fecha'] =  ''
           item['_area'] = item.Area.id
           item['_categoria'] = item.Categoria.id
-          item['_fecha'] = item.Categoria.id
+
 
           if(item['_estado']==='Activo'){
                 dataActiva = dataActiva + 1

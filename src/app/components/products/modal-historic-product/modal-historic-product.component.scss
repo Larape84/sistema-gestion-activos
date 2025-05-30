@@ -1,0 +1,103 @@
+.custom-form-field.mat-form-field-appearance-outline {
+  border-radius: 8px; /* bordes redondeados */
+  overflow: hidden;
+}
+
+/* Opcional: ajustar el borde para que sea más visible o diferente color */
+.custom-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
+  border-radius: 8px;
+  border-width: 1.5px;
+  border-color: #3f51b5; /* color del borde (ejemplo) */
+}
+
+/* Para el contorno activo (cuando el input está enfocado) */
+.custom-form-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  border-radius: 8px;
+  border-color: #673ab7; /* color cuando está activo */
+  border-width: 2px;
+}
+.custom-form-field .mat-form-field-wrapper {
+  padding: 0.25em 0.5em;
+}
+
+.custom-form-field.mat-form-field-appearance-outline .mat-form-field-flex {
+  border-radius: 8px;
+}
+
+.custom-form-field input.mat-input-element {
+  border-radius: 8px;
+}
+
+.icon-size-14 {
+    width: 3.5rem /* 56px */ !important;
+    height: 3.5rem /* 56px */ !important;
+    min-width: 3.5rem /* 56px */ !important;
+    min-height: 3.5rem /* 56px */ !important;
+    font-size: 3.5rem /* 56px */ !important;
+    line-height: 3.5rem /* 56px */ !important;
+}
+.icon-size-14 svg {
+    width: 3.5rem /* 56px */ !important;
+    height: 3.5rem /* 56px */ !important;
+}
+.hover\:border-dotted:hover {
+    border-style: dotted !important;
+    background-color: #f1f5f9;
+
+}
+
+.icon-size-3 {
+    width: 0.75rem /* 12px */ !important;
+    height: 0.75rem /* 12px */ !important;
+    min-width: 0.75rem /* 12px */ !important;
+    min-height: 0.75rem /* 12px */ !important;
+    font-size: 0.75rem /* 12px */ !important;
+    line-height: 0.75rem /* 12px */ !important;
+}
+.icon-size-3 svg {
+    width: 0.75rem /* 12px */ !important;
+    height: 0.75rem /* 12px */ !important;
+}
+
+.iconsize {
+  --tam : 14px;
+  width: var(--tam);
+  min-width: var(--tam);
+  max-width: var(--tam);
+  height: var(--tam);
+  min-height: var(--tam);
+  max-height: var(--tam);
+
+
+}
+
+
+.max-h-50 {
+    max-height: 12.5rem /* 200px */ !important;
+}
+.bgActivo {
+  background-color: oklch(79.2% 0.209 151.711);
+}
+
+.bginactivo {
+  background-color: oklch(63.7% 0.237 25.331);
+}
+
+.bgTraslado{
+  background-color: oklch(70.5% 0.213 47.604);
+}
+@media (min-width: 1200px) {
+  .contenedor {
+    max-height: 200px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .contenedor {
+    max-height: 400px;
+  }
+}
+
+.border-topp {
+  border-top: solid 1px gray;
+}
