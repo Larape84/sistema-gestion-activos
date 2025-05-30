@@ -22,40 +22,6 @@ export class FireStoreServiceService {
   }
 
 
-  // createDocumentWithImage(
-  //   collectionName: string,
-  //   documentData: any,
-  //   imageFile: File,
-  // ): Observable<boolean> {
-  //   const newDocRef = doc(collection(this.firestore, collectionName));
-  //   const documentId = newDocRef.id;
-
-  //   const storageRef = ref(this.storage, `${collectionName}${documentId}_${imageFile.name}`);
-
-  //   return from(uploadBytes(storageRef, imageFile)).pipe(
-
-  //     switchMap(uploadResult => from(getDownloadURL(uploadResult.ref))),
-
-  //     switchMap(imageUrl => {
-  //       const dataToSave = {
-  //         ...documentData,
-  //         imageUrl: imageUrl,
-  //         id: documentId
-  //       };
-
-  //       return from(setDoc(newDocRef, dataToSave));
-  //     }),
-
-  //     map(() => true),
-
-  //     catchError(error => {
-  //       console.error('Error al crear documento con imagen:', error);
-
-  //       throw false;
-  //     })
-  //   );
-  // }
-
   createDocumentWithImage(
   collectionName: string,
   documentData: any,
@@ -76,7 +42,7 @@ export class FireStoreServiceService {
       };
       return from(setDoc(newDocRef, dataToSave));
     }),
-    map(() => documentId), // ⬅️ Devuelve el ID del documento
+    map(() => documentId),
     catchError(error => {
       console.error('Error al crear documento con imagen:', error);
       return throwError(() => error);

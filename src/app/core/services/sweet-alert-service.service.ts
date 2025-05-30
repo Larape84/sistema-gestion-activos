@@ -47,13 +47,6 @@ export class SweetAlertServiceService {
 
 
 
-
-
-
-
-
-
-
   public alertSuccess(text?: string, accion?:any): Promise<void> {
 
     return new Promise ((resolve)=>{

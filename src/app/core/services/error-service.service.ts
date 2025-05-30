@@ -36,18 +36,6 @@ export class ErrorServiceService {
         return '*Solo se permiten letras sin espacios ni números';
       }
 
-      else if (errors?.['userExists']) {
-        return '*El valor ingresado ya se encuentra registrado';
-      }
-
-      else if (errors?.['onlyLettersNoAccents']) {
-        return '*Solo se permiten letras sin caracteres especiales';
-      }
-
-
-      else if (errors?.['lettersNumbersNoDoubleSpaces']) {
-        return '*Solo se permiten letras y números sin caracteres especiales';
-      }
 
       else if (errors?.['minDigits']) {
         return `*El valor debe tener al menos ${errors['minDigits'].requiredLength} caracteres`;
@@ -62,9 +50,6 @@ export class ErrorServiceService {
 
 
 
-    //   else if (errors?.customError) {
-    //     return errors.customError;
-    //   }
     }
     return null;
   }
