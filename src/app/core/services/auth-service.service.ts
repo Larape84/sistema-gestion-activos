@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Auth, onAuthStateChanged, signInAnonymously, signOut, User } from '@angular/fire/auth';
+import { Auth, getAuth, onAuthStateChanged, signInAnonymously, signOut, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
@@ -17,7 +17,16 @@ export class AuthServiceService {
   constructor(
     private _router : Router
   ) {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+      console.log('Usuario logueado:', user);
+    } else {
+      this.login().subscribe()
+      console.log('Sin sesión activa');
+    }
 
+    });
 
 
 

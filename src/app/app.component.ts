@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { FireStoreServiceService } from './core/services/fire-store-service.service';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { AuthServiceService } from './core/services/auth-service.service';
 
 @Component({
@@ -15,9 +15,18 @@ import { AuthServiceService } from './core/services/auth-service.service';
 export class AppComponent {
   title = 'sistema-gestion-activos';
 
+
+
   constructor(
-    private _authService : AuthServiceService
-  ) { }
+    private AuthServiceService : AuthServiceService
+  ){}
+
+
+
+
+
+
+
 
 
 

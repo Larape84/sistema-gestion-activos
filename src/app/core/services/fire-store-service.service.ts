@@ -10,7 +10,8 @@ export class FireStoreServiceService {
 
   constructor(
     private firestore: Firestore,
-    private storage: Storage
+    private storage: Storage,
+
   ) { }
 
 
@@ -118,6 +119,9 @@ export class FireStoreServiceService {
       )
     );
   }
+
+
+
 
 
 

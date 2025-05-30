@@ -1,3 +1,34 @@
+# 🧩 Proyecto Angular 18 + Node.js 22
+
+Este proyecto fue desarrollado usando **Angular 18** y **Node.js 22**, con soporte de múltiples librerías modernas para crear una experiencia de usuario limpia, eficiente y rápida.
+
+---
+
+## 🚀 Tecnologías usadas
+
+- **Angular 18** – Framework principal para el frontend.
+- **Node.js 22** – Entorno de ejecución para herramientas y servidor.
+- **Tailwind CSS** – Framework CSS utility-first para diseño responsivo.
+- **PrimeNG** – Componentes ricos de UI para Angular.
+- **SweetAlert2 Service** – Alertas personalizadas y amigables.
+- **FileSaver.js** – Para descarga de archivos desde el navegador.
+- **Luxon** – Librería moderna para manejar fechas.
+- **Firebase** – Autenticación, base de datos y almacenamiento en la nube.
+
+---
+
+## 🛠️ Requisitos previos
+
+- Node.js 22 instalado: https://nodejs.org/
+- Angular CLI (versión compatible con Angular 18):
+
+```bash
+npm install -g @angular/cli
+
+
+
+
+
 # SistemaGestionActivos
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.8.
