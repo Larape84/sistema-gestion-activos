@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col gap-2 p-4">
+<div  class="w-full flex flex-col gap-2 p-4">
 
   <section class="flex flex-row gap-2 w-full items-center px-2 ">
     <i class="pi pi-info-circle text-gray-600"  style="font-size: 40px;"></i>
@@ -14,7 +14,7 @@
 
     <div class="flex flex-col gap-2">
     <label for="username">Nombre del producto</label>
-    <input pInputText id="username" formControlName="Nombre" aria-describedby="username-help" />
+    <input autocomplete="off" pInputText id="username" formControlName="Nombre" aria-describedby="username-help" />
     <small class="text-red-500 text-sm font-semibold" *ngIf="errorService.msgError(formProducto, 'Nombre')">
       {{errorService.msgError(formProducto, 'Nombre')}}</small>
 </div>
@@ -41,11 +41,11 @@
 
 
 
-<div class="flex gap-2 mt-2">
+<div  class="flex gap-2 mt-2">
 
-  <div class="flex flex-col gap-2 w-full">
+  <div   class="flex flex-col gap-2 w-full">
     <label for="Fecha">Fecha adquisición</label>
-    <p-datepicker dateFormat="dd/mm/yy" id="Fecha" class="w-full" formControlName="Fecha" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
+    <p-datepicker    fluid dateFormat="dd/mm/yy" id="Fecha" class="w-full" formControlName="Fecha" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
 
      <small class="text-red-500 text-sm font-semibold" *ngIf="errorService.msgError(formProducto, 'Fecha')">
       {{errorService.msgError(formProducto, 'Fecha')}}</small>
@@ -56,7 +56,7 @@
 
    <div class="flex flex-col gap-2">
     <label for="Valor">Valor</label>
-    <input formControlName="Valor" pInputText id="Valor" aria-describedby="Valor-help" />
+    <input autocomplete="off" formControlName="Valor" pInputText id="Valor" aria-describedby="Valor-help" />
     <small class="text-red-500 text-sm font-semibold" *ngIf="errorService.msgError(formProducto, 'Valor')">
       {{errorService.msgError(formProducto, 'Valor')}}</small>
 </div>
@@ -76,7 +76,7 @@
 
   <div class="flex flex-col gap-2 mt-1">
     <label for="Custodio">Custodio</label>
-    <input formControlName="Custodio" pInputText id="Custodio" aria-describedby="Custodio" />
+    <input autocomplete="off" formControlName="Custodio" pInputText id="Custodio" aria-describedby="Custodio" />
      <small class="text-red-500 text-sm font-semibold" *ngIf="errorService.msgError(formProducto, 'Custodio')">
       {{errorService.msgError(formProducto, 'Custodio')}}</small>
 </div>

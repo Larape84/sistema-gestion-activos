@@ -20,6 +20,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 
   public cardActive = 0
+  public dataTarjetas = {dataTotal :0, dataActiva:0, dataInactiva:0, dataTraslado:0}
 
   constructor(
     private _productoService : ProductosServiceService,
@@ -50,6 +51,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     this._productoService.actualizarFiltroText(text)
 
+  }
+
+  public descargarData(): void {
+    this._productoService.descargarData()
   }
 
 

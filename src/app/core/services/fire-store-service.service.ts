@@ -72,6 +72,34 @@ export class FireStoreServiceService {
   }
 
 
+  getDocumentId(collectionName: string, userId: string): Observable<any> {
+    const userRef = collection(this.firestore, collectionName);
+    const q = query(userRef,
+        where("__name__", "==", String(userId)))
+
+    return from(getDocs(q).then(querySnapshot => {
+        if (!querySnapshot.empty) {
+            return { id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() };
+        }
+        return null;
+    }));
+  }
+
+  getDocumentLogin(collectionName: string, userId: string, pass : string): Observable<any> {
+    const userRef = collection(this.firestore, collectionName);
+    const q = query(userRef,
+        where("password", "==", String(pass)),
+        where("__name__", "==", String(userId)))
+
+    return from(getDocs(q).then(querySnapshot => {
+        if (!querySnapshot.empty) {
+            return { id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() };
+        }
+        return null;
+    }));
+}
+
+
 
 
 

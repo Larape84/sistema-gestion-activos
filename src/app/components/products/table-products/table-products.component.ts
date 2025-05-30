@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { ViewChild } from '@angular/core';
@@ -12,17 +12,23 @@ import { FireStoreServiceService } from '../../../core/services/fire-store-servi
 import { ProductosServiceService } from '../../../core/services/productos-service.service';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import {formatFirebaseTimestampToDDMMYYYY} from '../../../../shared/utils/luxon.dates'
-import {MatSort, Sort,} from '@angular/material/sort';
+import {MatSort} from '@angular/material/sort';
+import {exportAsExcelFile} from '../../../../shared/utils/excel.export'
+import { DataTablePipe } from "../../../../shared/pipes/data.table.pipe";
+import { ModalViewPictureProductComponent } from '../modal-view-picture-product/modal-view-picture-product.component';
+
+
 @Component({
   selector: 'app-table-products',
   standalone: true,
-  imports: [SharedModuleModule, ButtonModule, MenuModule],
+  imports: [SharedModuleModule, ButtonModule, MenuModule, DataTablePipe],
   templateUrl: './table-products.component.html',
   styleUrl: './table-products.component.scss'
 })
 export class TableProductsComponent implements OnInit , OnDestroy {
   @ViewChild(MatPaginator) public paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @Output() public tarjetaEmiter = new EventEmitter<any>();
 
   public selectProducto = null
   private $suscription = new Subscription();
@@ -36,8 +42,12 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
   public items = [
             { label: 'Editar', icon: 'pi pi-pencil',  command: (e:any) => {this.editproduct() } },
-            { label: 'Dar de baja', icon: 'pi pi-trash' },
-            { label: 'Trasladar', icon: 'pi pi-truck' },
+            { label: 'Dar de baja', icon: 'pi pi-trash', command: (e:any) => {this.udpateEstado('Inactivo') } },
+            { label: 'Trasladar', icon: 'pi pi-truck', command: (e:any) => {this.udpateEstado('Traslado') }},
+            { label: 'Visualizar producto', icon: 'pi pi-eye', command: (e:any) => { this.visualizarProucto()}},
+            { label: 'Ver historico', icon: 'pi pi-truck', command: (e:any) => {}}
+
+            ,
         ];
 
 
@@ -76,6 +86,17 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
      this.$suscriptionCard = this._productoService.$actualizarCardTabla.pipe(takeUntil(this.$unsuscribe)).subscribe({
       next:(resp)=>{
+
+        if(resp?.descargar){
+          this._sweetAlertService.startLoading({})
+          const data = this.dataSource.data
+          const name = 'Productos_registrados'
+          exportAsExcelFile(data, name)
+          setTimeout(() => {
+            this._sweetAlertService.stopLoading()
+          }, 500);
+
+        }
 
         if(resp?.text){
           this.dataSource.filter = resp.text;
@@ -144,6 +165,57 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
   }
 
+  public visualizarProucto(): void {
+    this._modalDial.open(ModalViewPictureProductComponent, {
+      data:this.selectProducto,
+      width:'700px',
+      maxWidth:'90vw',
+      maxHeight :'80vh'
+    })
+
+
+
+  }
+
+
+  public udpateEstado(estado: string): void {
+
+    const callback = ()=>{
+      this._sweetAlertService.startLoading({})
+
+      const payload = {
+        estado : {id: estado }
+      }
+
+      const id = this.selectProducto!['id']
+
+
+
+      this._fireService.updateDocument('productos', id ,payload).subscribe({
+        next:(resp)=>{
+
+          this.obtenerProductos().then(()=>{
+            this._sweetAlertService.alertSuccess()
+          })
+
+
+
+        },
+        error:(e)=>{
+          this._sweetAlertService.alertError(e)
+        }
+      })
+
+
+
+
+    }
+    this._sweetAlertService.alertConfirmation(callback)
+
+
+
+  }
+
 
 
 
@@ -184,14 +256,23 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
    }
 
-   public obtenerProductos(): void {
+   public obtenerProductos(): Promise<void> {
 
-    this._sweetAlertService.startLoading({})
+    return new Promise ((resolve, reject)=>{
+
+      this._sweetAlertService.startLoading({})
     this.dataSource = new MatTableDataSource([])
 
     this._fireService.getCollection('productos').subscribe({
       next:(productos)=>{
         console.log(productos)
+
+        let dataTotal = 0
+        let dataActiva = 0
+        let dataInactiva = 0
+        let dataTraslado = 0
+
+
         productos.forEach((item: any)=>{
 
           item['_estado'] = item.estado.id
@@ -199,6 +280,22 @@ export class TableProductsComponent implements OnInit , OnDestroy {
           item['_area'] = item.Area.id
           item['_categoria'] = item.Categoria.id
           item['_fecha'] = item.Categoria.id
+
+          if(item['_estado']==='Activo'){
+                dataActiva = dataActiva + 1
+          }
+
+          if(item['_estado']==='Inactivo'){
+                dataInactiva = dataInactiva + 1
+          }
+
+          if(item['_estado']==='Traslado'){
+                dataTraslado = dataTraslado + 1
+          }
+
+          dataTotal = dataTotal + 1
+
+
 
 
           item['color'] = this.obtenerColor(item.estado.id || '')
@@ -211,12 +308,22 @@ export class TableProductsComponent implements OnInit , OnDestroy {
         this.dataSource.sort = this.sort;
 
 
+
+        this.tarjetaEmiter.emit({dataTotal, dataActiva, dataInactiva, dataTraslado})
+
+
         this._sweetAlertService.stopLoading();
+        resolve()
       },
       error:(e)=>{
+        reject()
         this._sweetAlertService.alertError(e)
       }
     })
+
+
+    })
+
 
    }
 

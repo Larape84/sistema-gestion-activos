@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Auth, onAuthStateChanged, signInAnonymously, signOut, User } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -12,19 +13,12 @@ export class AuthServiceService {
   private currentUser = new BehaviorSubject<User | null>(null);
 
 
-  constructor() {
 
- onAuthStateChanged(this.auth, (user: User | null) => {
+  constructor(
+    private _router : Router
+  ) {
 
-  if (user?.isAnonymous) {
-        console.log('Usuario anónimo activo:', user.uid);
-      } else if (user) {
-        console.log('Usuario autenticado con proveedor:', user.providerId);
-      } else {
-        console.log('No hay usuario autenticado');
-      }
-      this.currentUser.next(user);
-    });
+
 
 
 
@@ -41,20 +35,7 @@ export class AuthServiceService {
     });
   }
 
-  logout(): Observable<any> {
 
-     return new Observable((observer) => {
-      signOut(this.auth)
-        .then((result) => {
-          observer.next(result);
-          observer.complete();
-        })
-        .catch((error) => observer.error(error));
-    });
-
-
-
-  }
 
   isAuthenticated(): boolean {
     return this.currentUser.value !== null;
@@ -62,6 +43,25 @@ export class AuthServiceService {
 
   getCurrentUser(): User | null {
     return this.currentUser.value;
+  }
+
+  public getUserActive(): any {
+    try {
+
+      const userkey = btoa('user')
+      const userActive = sessionStorage.getItem(userkey) || ''
+      const user = JSON.parse(atob(userActive))
+      return user
+    } catch (error) {
+      this.cerrarSesion()
+    }
+  }
+
+  public cerrarSesion(): void {
+
+      sessionStorage.clear()
+      this._router.navigateByUrl('/login/auth')
+
   }
 
 

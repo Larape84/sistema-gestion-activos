@@ -93,45 +93,30 @@ export class SweetAlertServiceService {
     })
   }
 
-  public alertInfo({ info = 'Lo sentimos, no se encontraron registros en la consulta' }): void {
-    Swal.fire({
-      allowOutsideClick: false,
-      allowEscapeKey:false,
-      backdrop: true,
-      text: info,
-      icon: 'info',
-      customClass: {
-        confirmButton: 'rounded-full w-20 bg-gray-400 ring-0'
-      }
-    })
-  }
+  public alertInfo({ info = 'Lo sentimos, no se encontraron registros en la consulta' }): Promise<void> {
+
+    return new Promise ((resolve)=>{
 
 
-  public alertActionConfirm(options: any): void {
-
-
-
-    const Alert = Swal.fire({
-      allowOutsideClick: false,
-      backdrop: true,
-      text: options.info,
-      icon: options.icon,
-      customClass: {
-        confirmButton: 'rounded-full w-20 bg-gray-400 ring-0'
-      }
-    })
-
-
-    if (!!options.callback) {
-      Alert.then((result) => {
-        if (result.isConfirmed) {
-          options.callback();
+      Swal.fire({
+        allowOutsideClick: false,
+        allowEscapeKey:false,
+        backdrop: true,
+        text: info,
+        icon: 'info',
+        customClass: {
+          confirmButton: 'rounded-full w-20 bg-gray-400 ring-0'
         }
+      }).then(()=>{
+        resolve()
       })
 
-    }
 
+    })
   }
+
+
+
 
 
 

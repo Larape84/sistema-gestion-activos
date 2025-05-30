@@ -12,8 +12,8 @@ export class ErrorServiceService {
     public msgError(form:FormGroup, control:string): string | null {
 
 
-    if (form && form.controls[control].touched && form.controls[control].errors) {
-      const errors = form.controls[control].errors;
+    if (form && form?.controls[control]?.touched && form?.controls[control]?.errors) {
+      const errors = form?.controls[control]?.errors;
 
 
       if (errors?.['required']) {

@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 export class ProductosServiceService {
 
   public $actualizarSubjet = new Subject<boolean>()
-  public $actualizarCardTabla = new Subject<{card?: number, text ?: string}>()
+  public $actualizarCardTabla = new Subject<{card?: number, text ?: string, descargar? : boolean}>()
 
 
   constructor() { }
@@ -23,6 +23,10 @@ export class ProductosServiceService {
 
    public actualizarFiltroText(text: string): void {
       this.$actualizarCardTabla.next({text})
+  }
+
+   public descargarData(): void {
+      this.$actualizarCardTabla.next({descargar: true})
   }
 
 

@@ -1,17 +1,23 @@
-<div class="flex h-full w-[300px] bg-[#753BBD]">
+<div [ngClass]="mostrar ? 'w-[250px] bg-[#753BBD]' : 'w-[100px] bg-[#513685]' " class="flex transition-all animation-duration-300 h-full ">
 <div class="w-full h-full  flex" style="max-height: calc(100% - 65px);">
 
         <div class="flex flex-col w-full h-full">
-            <div class="flex items-center justify-between px-6 pt-4 shrink-0">
+            <div [ngClass]="mostrar ? 'flex-row' : 'flex-col gap-2' " class="flex items-center justify-between px-6 pt-4 shrink-0">
 
 
-                  <div class="h-[50px] max-h-[50px]">
+                  <div *ngIf="mostrar" class="h-[50px] max-h-[50px]">
                     <img src="assets/images/logo.jpg" class="w-full h-full object-contain" alt="logo">
                   </div>
 
+                   <div *ngIf="!mostrar" class="h-[50px] max-h-[50px]">
+                    <img src="assets/images/favicon.png" class="w-full h-full object-contain" alt="logo">
+                  </div>
+
+
+
 
                 <div class="mt-4">
-                    <p-button type="button"  icon="pi pi-times" rounded="true" outlined="true" styleClass="h-8 w-8"></p-button>
+                    <p-button (onClick)="mostrar = !mostrar" type="button"  icon="pi pi-arrow-right-arrow-left" rounded="true" outlined="true" styleClass="h-8 w-8"></p-button>
                 </div>
             </div>
             <div class="overflow-y-auto">
@@ -26,22 +32,18 @@
                             leaveActiveClass="animate-slideup"
                             class="p-4 flex items-center justify-between text-surface-600 dark:text-surface-200 cursor-pointer p-ripple"
                         >
-                            <span class="font-medium text-white">Movimientos</span>
-                            <i class="pi pi-chevron-down text-white" ></i>
+                        <hr *ngIf="!mostrar" class="text-white w-full">
+                            <span *ngIf="mostrar" class="font-medium text-white">Movimientos</span>
+                            <i *ngIf="mostrar" (click)="mostrarMenu = !mostrarMenu" class="pi pi-chevron-down text-white" ></i>
                         </div>
                         <ul class="list-none p-0 m-0 overflow-hidden">
                             <li>
-                                <a pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-                                    <i class="pi pi-home mr-2 text-white" ></i>
-                                    <span class="font-medium text-white"  >Productos</span>
+                                <a pRipple class="flex border border-gray-200 rounded-md bg-purple-700 items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                                    <i [ngClass]="!mostrar ? 'mx-auto text-3xl' : '' "  class="pi pi-home mr-2 text-white" ></i>
+                                    <span *ngIf="mostrar" class="font-medium text-white"  >Productos</span>
                                 </a>
                             </li>
-                            <li>
-                                <a pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-                                    <i class="pi pi-bookmark mr-2 text-white"></i>
-                                    <span class="font-medium text-white" >Historial</span>
-                                </a>
-                            </li>
+
 
 
 

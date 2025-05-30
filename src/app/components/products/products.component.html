@@ -19,28 +19,28 @@
 
       <div (click)="filtrarCard(0)" [ngClass]="cardActive===0 ? 'bg-green-200 border-green-400' : 'bg-gray-200 border-gray-400' " class="w-[200px] cursor-pointer gap-2 px-2 py-2 border border-solid transition-all animation-duration-300  rounded-lg  flex flex-row items-center" >
         <div class="icon-size bg-white rounded-full flex items-center justify-center"   >
-          <span class="font-semibold text-gray-500" >5</span>
+          <span class="font-semibold text-gray-500" >{{dataTarjetas.dataTotal}}</span>
         </div>
         <span class="font-semibold text-gray-600">Total productos</span>
       </div>
 
       <div (click)="filtrarCard(1)" [ngClass]="cardActive===1 ? 'bg-green-200 border-green-400' : 'bg-gray-200 border-gray-400' " class="w-[200px] cursor-pointer gap-2 transition-all animation-duration-300 px-2 py-2 border border-solid  rounded-lg   flex flex-row items-center" >
         <div class="icon-size bg-white rounded-full flex items-center justify-center"   >
-          <span class="font-semibold text-gray-500" >8</span>
+          <span class="font-semibold text-gray-500" >{{dataTarjetas.dataActiva}}</span>
         </div>
         <span class="font-semibold text-gray-600">Activos</span>
       </div>
 
       <div (click)="filtrarCard(2)" [ngClass]="cardActive===2 ? 'bg-green-200 border-green-400' : 'bg-gray-200 border-gray-400' " class="w-[200px] cursor-pointer gap-2 transition-all animation-duration-300 px-2 py-2 border border-solid   rounded-lg   flex flex-row items-center" >
         <div class="icon-size bg-white rounded-full flex items-center justify-center"   >
-          <span class="font-semibold text-gray-500" >2</span>
+          <span class="font-semibold text-gray-500" >{{dataTarjetas.dataInactiva}}</span>
         </div>
         <span class="font-semibold text-gray-600">Inactivos</span>
       </div>
 
       <div (click)="filtrarCard(3)" [ngClass]="cardActive===3 ? 'bg-green-200 border-green-400' : 'bg-gray-200 border-gray-400' " class="w-[200px] cursor-pointer gap-2 transition-all animation-duration-300 px-2 py-2 border border-solid   rounded-lg   flex flex-row items-center" >
         <div class="icon-size bg-white rounded-full flex items-center justify-center"   >
-          <span class="font-semibold text-gray-500" >1</span>
+          <span class="font-semibold text-gray-500" >{{dataTarjetas.dataTraslado}}</span>
         </div>
         <span class="font-semibold text-gray-600">Traslados</span>
       </div>
@@ -53,25 +53,25 @@
       <div class="w-full flex flex-row items-center gap-2 mb-2">
 
 
-        <div class="w-[200px] h-10 bg-white rounded-full border border-gray-100 px-2 flex items-center justify-between"  >
+        <div class="w-[300px] h-10 bg-white rounded-full border border-gray-200 px-2 flex items-center justify-between"  >
 
-          <mat-icon class="">search</mat-icon>
+          <mat-icon class="text-gray-200">search</mat-icon>
 
-          <input (keydown)="filtrarText(text.value)"  #text type="text" placeholder="Filtar" autocomplete="off" class="appearance-none outline-none border-none bg-transparent p-0 m-0 text-sm flex-1">
+          <input (input)="filtrarText(text.value)" class="text-gray-400" #text type="text" placeholder="Filtar" autocomplete="off" class="appearance-none outline-none border-none bg-transparent p-0 m-0 text-sm flex-1">
 
         </div>
 
 
         <p-button (onClick)="actualizarRegistros()" icon="pi pi-sync" [rounded]="true" severity="info" />
 
-        <p-button icon="pi pi-file-excel" [rounded]="true" severity="success" />
+        <p-button  (onClick)="descargarData()" icon="pi pi-file-excel" [rounded]="true" severity="success" />
 
         <p-button (onClick)="crearproduct()" label="Crear nuevo producto" icon="pi pi-tag" [rounded]="true" severity="help" />
 
       </div>
 
 
-      <app-table-products ></app-table-products>
+      <app-table-products (tarjetaEmiter)="dataTarjetas=$event" ></app-table-products>
 
 
     </div>

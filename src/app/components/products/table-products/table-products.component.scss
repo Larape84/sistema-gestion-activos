@@ -1,5 +1,5 @@
 .iconsize {
-  --tam : 20px;
+  --tam : 14px;
   width: var(--tam);
   min-width: var(--tam);
   max-width: var(--tam);
@@ -11,13 +11,13 @@
 }
 
 .bgActivo {
-  background-color: green;
+  background-color: oklch(79.2% 0.209 151.711);
 }
 
 .bginactivo {
-  background-color: red;
+  background-color: oklch(63.7% 0.237 25.331);
 }
 
 .bgTraslado{
-  background-color: orange;
+  background-color: oklch(70.5% 0.213 47.604);
 }
