@@ -8,8 +8,8 @@ const db = getFirestore();
 
 export const crearHistoricoProducto = onDocumentWritten(
   {
-    document: 'productos/{productoId}', // Escucha cualquier cambio en productos
-    region: 'us-central1' // Cambia si usas otra región
+    document: 'productos/{productoId}',
+    region: 'us-central1'
   },
   async (event) => {
     const afterSnap = event.data?.after;
@@ -21,7 +21,7 @@ export const crearHistoricoProducto = onDocumentWritten(
     const producto = afterSnap.data();
     const productoId = afterSnap.id;
 
-    // Puedes agregar timestamp si lo deseas
+
     const historico = {
       ...producto,
       product: productoId,
