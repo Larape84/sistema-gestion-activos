@@ -66,7 +66,7 @@ export class ModalHistoricProductComponent implements OnInit, AfterViewInit{
   return data.sort((a, b) => {
     const fechaA = new Date(a.fechaModificacion.seconds * 1000);
     const fechaB = new Date(b.fechaModificacion.seconds * 1000);
-    return fechaB.getTime() - fechaA.getTime(); // más reciente primero
+    return fechaB.getTime() - fechaA.getTime();
   });
 }
 

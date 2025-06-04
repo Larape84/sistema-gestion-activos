@@ -94,12 +94,12 @@ export class FireStoreServiceService {
     }));
 }
 
-  crearDocumentoAutoID$<T>(nombreColeccion: string, data: any): Observable<string> {
-    const coleccionRef = collection(this.firestore, nombreColeccion);
-    return from(
-      addDoc(coleccionRef, data).then((docRef) => docRef.id)
-    );
-  }
+  // crearDocumentoAutoID$<T>(nombreColeccion: string, data: any): Observable<string> {
+  //   const coleccionRef = collection(this.firestore, nombreColeccion);
+  //   return from(
+  //     addDoc(coleccionRef, data).then((docRef) => docRef.id)
+  //   );
+  // }
 
 
     getDocumentsByKey(

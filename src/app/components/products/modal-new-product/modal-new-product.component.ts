@@ -134,7 +134,7 @@ public estados = [
     this._firebase.updateDocument('productos', this.data.id, payload).subscribe({
       next:(resp)=>{
 
-        this._firebase.crearDocumentoAutoID$('historico', {...this.data, ...payload, product:this.data.id }).subscribe()
+        // this._firebase.crearDocumentoAutoID$('historico', {...this.data, ...payload, product:this.data.id }).subscribe()
 
         this.Sweetalert2Service.alertSuccess().then(()=>{
           this._modalref.close(true)
@@ -197,16 +197,6 @@ public estados = [
     this._firebase.createDocumentWithImage('productos', payload, this.file).subscribe({
       next:(resp)=>{
 
-        const product = {
-          ...payload, product:resp,
-          _area : form.Area.id,
-          _categoria : form.Categoria.id,
-          _estado : 'Activo',
-          fecha: formatFirebaseTimestampToDDMMYYYY(form.Fecha)
-
-        }
-
-        this._firebase.crearDocumentoAutoID$('historico', product).subscribe()
 
         this.Sweetalert2Service.alertSuccess().then(()=>{
           this._modalref.close(true)

@@ -216,22 +216,13 @@ export class TableProductsComponent implements OnInit , OnDestroy {
 
       const id = this.selectProducto!['id']
 
-      const select : any = this.selectProducto
-      const historico = {
-        ...select,
-        ...payload,
-        _estado :  estado,
-        color : this.obtenerColor(estado),
-        product:this.selectProducto!['id']
-      }
-      console.log(historico)
+
+
 
       this._fireService.updateDocument('productos', id ,payload).subscribe({
         next:(resp)=>{
 
-          this._fireService.crearDocumentoAutoID$('historico', historico).subscribe((resp)=>{
-            console.log(resp, 'historico')
-          })
+
 
           this.obtenerProductos().then(()=>{
             this._sweetAlertService.alertSuccess()
