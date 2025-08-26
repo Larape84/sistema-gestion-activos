@@ -13,7 +13,7 @@ RUN npm install -f
 # Copia el resto del código fuente del proyecto
 COPY . .
 
-# Compila la aplicación de Angular para producción
+ 
 # El flag --output-path especifica el directorio de salida
 RUN npm run build -- --output-path=./dist/sistema-gestion-activos/browser --base-href=/
 
