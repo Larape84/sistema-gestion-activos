@@ -15,7 +15,7 @@ COPY . .
 
  
 # El flag --output-path especifica el directorio de salida
-RUN npm run build -- --output-path=./dist/sistema-gestion-activos/browser --base-href=/
+RUN npm run build -- --output-path=./dist/sistema-gestion-activos --base-href=/
 
 # -- Etapa 2: Servir la aplicación compilada con Nginx --
 # Usa una imagen base de Nginx ligera (alpine)
@@ -25,7 +25,7 @@ FROM nginx:1.25-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copia los archivos estáticos compilados desde la etapa 'build'
-COPY --from=build /usr/src/app/dist/sistema-gestion-activos/browser /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/sistema-gestion-activos /usr/share/nginx/html
 
 # Expone el puerto por defecto de Nginx
 EXPOSE 80
