@@ -1,5 +1,4 @@
 services:
   activos-app:
     build: .
-    ports:
-      - "9002:80"
+    
