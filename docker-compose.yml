@@ -1,4 +1,3 @@
 services:
   activos-app:
-    build: .
-    
+    image: gestionactivos/activos-app:latest
