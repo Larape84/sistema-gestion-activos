@@ -1,3 +1,13 @@
 services:
   activos-app:
     image: gestionactivos/activos-app:latest
+    networks:
+      - dokploy-network
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.activos-app.rule=Host(`midominio.com`)
+        - traefik.http.services.activos-app.loadbalancer.server.port=80
+networks:
+  dokploy-network:
+    external: true
